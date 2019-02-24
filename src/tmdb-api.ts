@@ -32,14 +32,14 @@ export const getTmdbMetadata = async (
     }
   }
 
-  const result = await fetch(url);
+  const result = await fetch(String(url));
 
   if (!result.ok) {
     if (result.status === 429 && tries > 0) {
       const retry = Number(result.headers["X-RateLimit-Reset"]);
       console.log(`[TMDB ${type}/${id}] Retrying in a few seconds...`);
       await timeout((retry - Date.now()) * 1000);
-      return getTmdbMetadata(type, id, apiKey, tries - 1);
+      return getTmdbMetadata(type, id, apiKey, language, tries - 1);
     }
 
     throw new Error(
