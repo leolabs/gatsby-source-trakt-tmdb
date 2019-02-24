@@ -1,22 +1,30 @@
 {
-  "name": "gatsby-source-trakt",
+  "name": "gatsby-source-trakt-tmdb",
   "version": "1.0.0",
-  "description": "Pull data from your Trakt.TV account and use it on your website",
+  "description": "Gatsby source plugin for using data from Trakt.TV combined with TMDB on your website",
   "main": "index.js",
   "author": "Leo Bernard <admin@leolabs.org>",
   "license": "MIT",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-source-plugin",
+    "trakt.tv",
+    "tmdb"
+  ],
+  "scripts": {
+    "prepublish": "yarn build",
+    "build": "tsc"
+  },
   "dependencies": {
-    "@types/node": "^11.9.5",
     "gatsby-node-helpers": "^0.3.0",
     "gatsby-source-filesystem": "^2.0.22",
-    "node-fetch": "^2.3.0",
-    "tslint": "^5.13.0",
-    "typescript": "^3.3.3333"
-  },
-  "scripts": {
-    "prepublish": "tsc"
+    "node-fetch": "^2.3.0"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.1.6"
+    "@types/node": "^11.9.5",
+    "@types/node-fetch": "^2.1.6",
+    "tslint": "^5.13.0",
+    "typescript": "^3.3.3333"
   }
 }
