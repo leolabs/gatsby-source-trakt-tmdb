@@ -33,7 +33,9 @@ export const getTmdbMetadata = async (
     }
   }
 
-  const result = await fetch(String(url));
+  const result = await fetch(String(url), {
+    timeout: 10000,
+  });
 
   if (!result.ok) {
     if (result.status === 429 && tries > 0) {

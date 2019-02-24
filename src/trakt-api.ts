@@ -11,6 +11,7 @@ const traktFetch = async (url: string, apiKey: string) => {
       'trakt-api-version': '2',
       'trakt-api-key': apiKey,
     },
+    timeout: 10000,
   });
 
   if (!response.ok) {
