@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "."
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": true
   },
   "files": ["src/gatsby-node.ts"]
 }
