@@ -4,6 +4,7 @@
   "jsRules": {},
   "rules": {
     "array-type": false,
+    "no-unsafe-any": false,
     "curly": true,
     "interface-name": [true, "never-prefix"],
     "jsx-no-multiline-js": false,

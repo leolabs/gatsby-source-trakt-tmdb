@@ -6,8 +6,6 @@ install:
 
 script:
   - yarn lint
-
-build:
   - yarn build
 
 deploy:
