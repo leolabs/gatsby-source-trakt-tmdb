@@ -9,6 +9,7 @@ interface PluginOptions {
   username: string;
   traktApiKey: string;
   tmdbApiKey?: string;
+  language?: string;
 }
 
 const referenceRemoteFile = async (
@@ -53,6 +54,7 @@ export const sourceNodes = async (
           "movie",
           movie.movie.ids.tmdb,
           pluginOptions.tmdbApiKey,
+          pluginOptions.language,
           cache,
         )) as Movie;
 
@@ -84,6 +86,7 @@ export const sourceNodes = async (
           "tv",
           show.show.ids.tmdb,
           pluginOptions.tmdbApiKey,
+          pluginOptions.language,
           cache,
         )) as Movie;
 

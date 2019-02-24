@@ -11,10 +11,17 @@ export const getTmdbMetadata = async (
   type: "movie" | "tv",
   id: number,
   apiKey: string,
+  language?: string,
   cache?: any,
   tries: number = 5,
 ): Promise<Movie | TvShow> => {
-  const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}`;
+  const url = new URL(`https://api.themoviedb.org/3/${type}/${id}`);
+  url.searchParams.append("api_key", apiKey);
+
+  if (language) {
+    url.searchParams.append("language", language);
+  }
+
   const cacheKey = `tmdb-${type}-${id}`;
 
   if (cache) {
