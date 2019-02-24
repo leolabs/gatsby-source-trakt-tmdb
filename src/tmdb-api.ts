@@ -11,9 +11,19 @@ export const getTmdbMetadata = async (
   type: "movie" | "tv",
   id: number,
   apiKey: string,
+  cache?: any,
   tries: number = 3,
 ): Promise<Movie | TvShow> => {
   const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}`;
+  const cacheKey = `tmdb-${type}-${id}`;
+
+  if (cache) {
+    const cachedResult = await cache.get(cacheKey);
+
+    if (cachedResult) {
+      return cachedResult;
+    }
+  }
 
   const result = await fetch(url);
 
@@ -30,10 +40,16 @@ export const getTmdbMetadata = async (
     );
   }
 
+  const data = await result.json();
+
+  if (cache) {
+    cache.set(cacheKey, data);
+  }
+
   switch (type) {
     case "movie":
-      return (await result.json()) as Movie;
+      return data as Movie;
     case "tv":
-      return (await result.json()) as TvShow;
+      return data as TvShow;
   }
 };

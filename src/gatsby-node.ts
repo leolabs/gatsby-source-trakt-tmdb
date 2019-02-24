@@ -53,6 +53,7 @@ export const sourceNodes = async (
           "movie",
           movie.movie.ids.tmdb,
           pluginOptions.tmdbApiKey,
+          cache,
         )) as Movie;
 
         const enhancedMovieMeta = {
@@ -83,6 +84,7 @@ export const sourceNodes = async (
           "tv",
           show.show.ids.tmdb,
           pluginOptions.tmdbApiKey,
+          cache,
         )) as Movie;
 
         const enhancedShowMeta = {
