@@ -13,8 +13,9 @@
     "tmdb"
   ],
   "scripts": {
-    "prepublish": "yarn build",
-    "build": "tsc"
+    "prepublishOnly": "yarn build",
+    "build": "tsc",
+    "format": "prettier --write 'src/**/*"
   },
   "dependencies": {
     "gatsby-node-helpers": "^0.3.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/node": "^11.9.5",
     "@types/node-fetch": "^2.1.6",
+    "prettier": "^1.16.4",
     "tslint": "^5.13.0",
     "typescript": "^3.3.3333"
   }
