@@ -1,14 +1,15 @@
-import fetch from "node-fetch";
-import { Movie } from "./types/tmdb-movie";
-import { TvShow } from "./types/tmdb-tv-show";
+import fetch from 'node-fetch';
+
+import { Movie } from './types/tmdb-movie';
+import { TvShow } from './types/tmdb-tv-show';
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
 
 export const generateImageUrl = (image: string) =>
-  `https://image.tmdb.org/t/p/original/${image.replace(/^\//, "")}`;
+  `https://image.tmdb.org/t/p/original/${image.replace(/^\//, '')}`;
 
 export const getTmdbMetadata = async (
-  type: "movie" | "tv",
+  type: 'movie' | 'tv',
   id: number,
   apiKey: string,
   language?: string,
@@ -16,10 +17,10 @@ export const getTmdbMetadata = async (
   tries: number = 5,
 ): Promise<Movie | TvShow> => {
   const url = new URL(`https://api.themoviedb.org/3/${type}/${id}`);
-  url.searchParams.append("api_key", apiKey);
+  url.searchParams.append('api_key', apiKey);
 
   if (language) {
-    url.searchParams.append("language", language);
+    url.searchParams.append('language', language);
   }
 
   const cacheKey = `tmdb-${type}-${id}`;
@@ -36,7 +37,7 @@ export const getTmdbMetadata = async (
 
   if (!result.ok) {
     if (result.status === 429 && tries > 0) {
-      const retry = Number(result.headers["X-RateLimit-Reset"]);
+      const retry = Number(result.headers['X-RateLimit-Reset']);
       console.log(`[TMDB ${type}/${id}] Retrying in a few seconds...`);
       await timeout((retry - Date.now()) * 1000);
       return getTmdbMetadata(type, id, apiKey, language, tries - 1);
@@ -54,9 +55,9 @@ export const getTmdbMetadata = async (
   }
 
   switch (type) {
-    case "movie":
+    case 'movie':
       return data as Movie;
-    case "tv":
+    case 'tv':
       return data as TvShow;
   }
 };

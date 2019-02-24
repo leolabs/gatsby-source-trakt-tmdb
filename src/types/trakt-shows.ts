@@ -35,6 +35,6 @@ export interface WatchedShow {
 export interface WatchlistShow {
   rank: number;
   listed_at: Date;
-  type: "show";
+  type: 'show';
   show: Show;
 }

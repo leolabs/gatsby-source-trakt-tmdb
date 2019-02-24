@@ -1,16 +1,16 @@
 import { createRemoteFileNode } from 'gatsby-source-filesystem';
 
-import { getTraktData } from './trakt-api';
-import { getTmdbMetadata, generateImageUrl } from './tmdb-api';
 import {
+  StatsNode,
   WatchedMovieNode,
   WatchedShowNode,
-  StatsNode,
   WatchlistMovieNode,
   WatchlistShowNode,
 } from './nodes';
+import { generateImageUrl, getTmdbMetadata } from './tmdb-api';
+import { getTraktData } from './trakt-api';
 import { Movie } from './types/tmdb-movie';
-import { WatchlistMovie, WatchedMovie } from './types/trakt-movies';
+import { WatchedMovie, WatchlistMovie } from './types/trakt-movies';
 import { WatchedShow, WatchlistShow } from './types/trakt-shows';
 
 interface PluginOptions {

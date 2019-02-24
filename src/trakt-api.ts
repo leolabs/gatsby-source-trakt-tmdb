@@ -1,14 +1,15 @@
-import fetch from "node-fetch";
-import { WatchedMovie, WatchlistMovie } from "./types/trakt-movies";
-import { WatchedShow, WatchlistShow } from "./types/trakt-shows";
-import { Stats } from "./types/trakt-stats";
+import fetch from 'node-fetch';
+
+import { WatchedMovie, WatchlistMovie } from './types/trakt-movies';
+import { WatchedShow, WatchlistShow } from './types/trakt-shows';
+import { Stats } from './types/trakt-stats';
 
 const traktFetch = async (url: string, apiKey: string) => {
   const response = await fetch(url, {
     headers: {
-      "Content-Type": "application/json",
-      "trakt-api-version": "2",
-      "trakt-api-key": apiKey,
+      'Content-Type': 'application/json',
+      'trakt-api-version': '2',
+      'trakt-api-key': apiKey,
     },
   });
 
@@ -26,8 +27,8 @@ const generateUserUrl = (userName: string) =>
 
 const generateRequest = async (
   userName: string,
-  category: "watched" | "watchlist",
-  type: "movies" | "shows",
+  category: 'watched' | 'watchlist',
+  type: 'movies' | 'shows',
   apiKey: string,
 ) => {
   return traktFetch(`${generateUserUrl(userName)}/${category}/${type}`, apiKey);
@@ -49,10 +50,10 @@ export const getTraktData = async (userName: string, apiKey: string) => {
     watchlistShows,
     stats,
   ] = await Promise.all([
-    generateRequest(userName, "watched", "movies", apiKey),
-    generateRequest(userName, "watched", "shows", apiKey),
-    generateRequest(userName, "watchlist", "movies", apiKey),
-    generateRequest(userName, "watchlist", "shows", apiKey),
+    generateRequest(userName, 'watched', 'movies', apiKey),
+    generateRequest(userName, 'watched', 'shows', apiKey),
+    generateRequest(userName, 'watchlist', 'movies', apiKey),
+    generateRequest(userName, 'watchlist', 'shows', apiKey),
     getStatsData(userName, apiKey),
   ]);
 

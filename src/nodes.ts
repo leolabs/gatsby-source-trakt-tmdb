@@ -1,4 +1,5 @@
 import createNodeHelpers from 'gatsby-node-helpers';
+
 import { WatchedMovie, WatchlistMovie } from './types/trakt-movies';
 import { WatchedShow, WatchlistShow } from './types/trakt-shows';
 

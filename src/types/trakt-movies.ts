@@ -21,6 +21,6 @@ export interface WatchedMovie {
 export interface WatchlistMovie {
   rank: number;
   listed_at: Date;
-  type: "movie";
+  type: 'movie';
   movie: Movie;
 }
