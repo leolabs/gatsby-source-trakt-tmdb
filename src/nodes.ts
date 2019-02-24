@@ -1,9 +1,9 @@
-import createNodeHelpers from "gatsby-node-helpers";
-import { WatchedMovie } from "./types/trakt-movies";
-import { WatchedShow } from "./types/trakt-shows";
+import createNodeHelpers from 'gatsby-node-helpers';
+import { WatchedMovie, WatchlistMovie } from './types/trakt-movies';
+import { WatchedShow, WatchlistShow } from './types/trakt-shows';
 
 const { createNodeFactory } = createNodeHelpers({
-  typePrefix: "Trakt",
+  typePrefix: 'Trakt',
 });
 
 const tryParseDate = (input: string | number | Date) => {
@@ -12,7 +12,7 @@ const tryParseDate = (input: string | number | Date) => {
 };
 
 export const WatchedMovieNode = createNodeFactory(
-  "WatchedMovie",
+  'WatchedMovie',
   (node: WatchedMovie) => ({
     ...node,
     last_watched_at: tryParseDate(node.last_watched_at),
@@ -21,7 +21,7 @@ export const WatchedMovieNode = createNodeFactory(
 );
 
 export const WatchedShowNode = createNodeFactory(
-  "WatchedShow",
+  'WatchedShow',
   (node: WatchedShow) => ({
     ...node,
     last_watched_at: tryParseDate(node.last_watched_at),
@@ -29,7 +29,23 @@ export const WatchedShowNode = createNodeFactory(
   }),
 );
 
-export const StatsNode = createNodeFactory("Stats", (node: WatchedShow) => ({
+export const WatchlistMovieNode = createNodeFactory(
+  'WatchlistMovie',
+  (node: WatchlistMovie) => ({
+    ...node,
+    listed_at: tryParseDate(node.listed_at),
+  }),
+);
+
+export const WatchlistShowNode = createNodeFactory(
+  'WatchlistShow',
+  (node: WatchlistShow) => ({
+    ...node,
+    listed_at: tryParseDate(node.listed_at),
+  }),
+);
+
+export const StatsNode = createNodeFactory('Stats', (node: WatchedShow) => ({
   ...node,
   last_watched_at: tryParseDate(node.last_watched_at),
   last_updated_at: tryParseDate(node.last_updated_at),
