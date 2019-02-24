@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-trakt-tmdb",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Gatsby source plugin for using data from Trakt.TV combined with TMDB on your website",
   "main": "index.js",
   "author": "Leo Bernard <admin@leolabs.org>",

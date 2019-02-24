@@ -4,5 +4,5 @@
     "declaration": true,
     "outDir": "./"
   },
-  "files": ["src/gatsby-node.ts"]
+  "files": ["src/gatsby-node.ts", "src/index.ts"]
 }
