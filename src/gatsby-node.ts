@@ -22,17 +22,26 @@ interface PluginOptions {
 
 const referenceRemoteFile = async (
   url: string,
-  { cache, createNode, createNodeId, store },
+  { cache, createNode, createNodeId, store, touchNode },
 ) => {
+  const cachedResult = await cache.get(url);
+
+  if (cachedResult) {
+    touchNode({ nodeId: cachedResult });
+    return { localFile___NODE: cachedResult };
+  }
+
   const fileNode = await createRemoteFileNode({
     url,
     store,
     cache,
     createNode,
     createNodeId,
+    ext: !url.includes('.') ? '.jpg' : undefined,
   });
 
   if (fileNode) {
+    cache.set(url, fileNode.id);
     return { localFile___NODE: fileNode.id };
   }
 
@@ -119,10 +128,10 @@ const createShowNode = async (
 };
 
 export const sourceNodes = async (
-  { actions, createNodeId, store, cache, touchNode },
+  { actions, createNodeId, store, cache },
   pluginOptions: PluginOptions,
 ) => {
-  const { createNode } = actions;
+  const { createNode, touchNode } = actions;
   const helpers = { cache, createNode, createNodeId, store, touchNode };
 
   const {
