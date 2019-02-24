@@ -12,7 +12,7 @@ export const getTmdbMetadata = async (
   id: number,
   apiKey: string,
   cache?: any,
-  tries: number = 3,
+  tries: number = 5,
 ): Promise<Movie | TvShow> => {
   const url = `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}`;
   const cacheKey = `tmdb-${type}-${id}`;
