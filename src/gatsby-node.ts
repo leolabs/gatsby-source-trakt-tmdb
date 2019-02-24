@@ -1,8 +1,8 @@
 import { createRemoteFileNode } from "gatsby-source-filesystem";
 
-import { getWatchedData } from "./trakt-api";
+import { getTraktData } from "./trakt-api";
 import { getTmdbMetadata, generateImageUrl } from "./tmdb-api";
-import { WatchedMovieNode, WatchedShowNode } from "./nodes";
+import { WatchedMovieNode, WatchedShowNode, StatsNode } from "./nodes";
 import { Movie } from "./types/tmdb-movie";
 
 interface PluginOptions {
@@ -39,16 +39,17 @@ export const sourceNodes = async (
   pluginOptions: PluginOptions,
 ) => {
   const { createNode } = actions;
-
   const helpers = { cache, createNode, createNodeId, store, touchNode };
 
-  const { movies, shows } = await getWatchedData(
+  const { watchedMovies, watchedShows, stats } = await getTraktData(
     pluginOptions.username,
     pluginOptions.traktApiKey,
   );
 
+  createNode(StatsNode(stats));
+
   await Promise.all([
-    ...movies.map(async movie => {
+    ...watchedMovies.map(async movie => {
       if (pluginOptions.tmdbApiKey) {
         const movieMeta = (await getTmdbMetadata(
           "movie",
@@ -80,7 +81,7 @@ export const sourceNodes = async (
         );
       }
     }),
-    ...shows.map(async show => {
+    ...watchedShows.map(async show => {
       if (pluginOptions.tmdbApiKey) {
         const showMeta = (await getTmdbMetadata(
           "tv",

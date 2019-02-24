@@ -11,9 +11,16 @@ export interface Movie {
   ids: Ids;
 }
 
-export interface MoviePlay {
+export interface WatchedMovie {
   plays: number;
   last_watched_at: Date;
   last_updated_at: Date;
+  movie: Movie;
+}
+
+export interface WatchlistMovie {
+  rank: number;
+  listed_at: Date;
+  type: "movie";
   movie: Movie;
 }

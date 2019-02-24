@@ -24,10 +24,17 @@ export interface Season {
   episodes: Episode[];
 }
 
-export interface ShowPlay {
+export interface WatchedShow {
   plays: number;
   last_watched_at: Date;
   last_updated_at: Date;
   show: Show;
   seasons: Season[];
+}
+
+export interface WatchlistShow {
+  rank: number;
+  listed_at: Date;
+  type: "show";
+  show: Show;
 }

@@ -1,16 +1,10 @@
 import fetch from "node-fetch";
-import { MoviePlay } from "./types/trakt-movies";
-import { ShowPlay } from "./types/trakt-shows";
+import { WatchedMovie, WatchlistMovie } from "./types/trakt-movies";
+import { WatchedShow, WatchlistShow } from "./types/trakt-shows";
+import { Stats } from "./types/trakt-stats";
 
-const generateUrl = (userName: string, type: "movies" | "shows") =>
-  `https://api.trakt.tv/users/${userName}/watched/${type}`;
-
-const generateRequest = async (
-  userName: string,
-  type: "movies" | "shows",
-  apiKey: string,
-) => {
-  const response = await fetch(generateUrl(userName, type), {
+const traktFetch = async (url: string, apiKey: string) => {
+  const response = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
       "trakt-api-version": "2",
@@ -19,25 +13,54 @@ const generateRequest = async (
   });
 
   if (!response.ok) {
-    throw new Error(`${response.statusText}: ${await response.text()}`);
+    throw new Error(
+      `[${url}] ${response.statusText}: ${await response.text()}`,
+    );
   }
 
-  switch (type) {
-    case "movies":
-      return (await response.json()) as MoviePlay[];
-    case "shows":
-      return (await response.json()) as ShowPlay[];
-  }
+  return response.json();
 };
 
-export const getWatchedData = async (userName: string, apiKey: string) => {
-  const [movies, shows] = await Promise.all([
-    generateRequest(userName, "movies", apiKey),
-    generateRequest(userName, "shows", apiKey),
+const generateUserUrl = (userName: string) =>
+  `https://api.trakt.tv/users/${userName}`;
+
+const generateRequest = async (
+  userName: string,
+  category: "watched" | "watchlist",
+  type: "movies" | "shows",
+  apiKey: string,
+) => {
+  return traktFetch(`${generateUserUrl(userName)}/${category}/${type}`, apiKey);
+};
+
+export const getStatsData = async (userName: string, apiKey: string) => {
+  const response = await traktFetch(
+    `${generateUserUrl(userName)}/stats`,
+    apiKey,
+  );
+  return response as Stats;
+};
+
+export const getTraktData = async (userName: string, apiKey: string) => {
+  const [
+    watchedMovies,
+    watchedShows,
+    watchlistMovies,
+    watchlistShows,
+    stats,
+  ] = await Promise.all([
+    generateRequest(userName, "watched", "movies", apiKey),
+    generateRequest(userName, "watched", "shows", apiKey),
+    generateRequest(userName, "watchlist", "movies", apiKey),
+    generateRequest(userName, "watchlist", "shows", apiKey),
+    getStatsData(userName, apiKey),
   ]);
 
   return {
-    movies: movies as MoviePlay[],
-    shows: shows as ShowPlay[],
+    watchedMovies: watchedMovies as WatchedMovie[],
+    watchedShows: watchedShows as WatchedShow[],
+    watchlistMovies: watchlistMovies as WatchlistMovie[],
+    watchlistShows: watchlistShows as WatchlistShow[],
+    stats: stats as Stats,
   };
 };
