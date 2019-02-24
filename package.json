@@ -18,6 +18,9 @@
     "format": "prettier --write 'src/**/*",
     "lint": "tslint --project tsconfig.json"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "gatsby-node-helpers": "^0.3.0",
     "gatsby-source-filesystem": "^2.0.22",
