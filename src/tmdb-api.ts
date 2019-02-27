@@ -25,7 +25,9 @@ export const getTmdbMetadata = async (
 
   const cacheKey = `tmdb-${type}-${id}`;
 
-  if (cache) {
+  // Sometimes, cache.get is not a function for whatever reason.
+  // In those cases, we just skip the caching.
+  if (cache && typeof cache.get === 'function') {
     const cachedResult = await cache.get(cacheKey);
 
     if (cachedResult) {
@@ -52,7 +54,7 @@ export const getTmdbMetadata = async (
 
   const data = await result.json();
 
-  if (cache) {
+  if (cache && typeof cache.set === 'function') {
     cache.set(cacheKey, data);
   }
 
