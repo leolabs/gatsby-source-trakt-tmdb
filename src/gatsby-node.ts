@@ -13,11 +13,19 @@ import { Movie } from './types/tmdb-movie';
 import { WatchedMovie, WatchlistMovie } from './types/trakt-movies';
 import { WatchedShow, WatchlistShow } from './types/trakt-shows';
 
-interface PluginOptions {
+export interface PluginOptions {
   username: string;
   traktApiKey: string;
   tmdbApiKey?: string;
   language?: string;
+  limit?: number | Limits;
+}
+
+export interface Limits {
+  watchedMovies: number;
+  watchedShows: number;
+  watchlistMovies: number;
+  watchlistShows: number;
 }
 
 const referenceRemoteFile = async (
@@ -140,7 +148,11 @@ export const sourceNodes = async (
     watchlistMovies,
     watchlistShows,
     stats,
-  } = await getTraktData(pluginOptions.username, pluginOptions.traktApiKey);
+  } = await getTraktData(
+    pluginOptions.username,
+    pluginOptions.traktApiKey,
+    pluginOptions.limit,
+  );
 
   createNode(StatsNode(stats));
 

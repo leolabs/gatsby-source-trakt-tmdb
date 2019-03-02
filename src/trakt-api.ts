@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 
+import { Limits } from './gatsby-node';
 import { WatchedMovie, WatchlistMovie } from './types/trakt-movies';
 import { WatchedShow, WatchlistShow } from './types/trakt-shows';
 import { Stats } from './types/trakt-stats';
@@ -43,7 +44,11 @@ export const getStatsData = async (userName: string, apiKey: string) => {
   return response as Stats;
 };
 
-export const getTraktData = async (userName: string, apiKey: string) => {
+export const getTraktData = async (
+  userName: string,
+  apiKey: string,
+  limit?: number | Limits,
+) => {
   const [
     watchedMovies,
     watchedShows,
@@ -58,11 +63,62 @@ export const getTraktData = async (userName: string, apiKey: string) => {
     getStatsData(userName, apiKey),
   ]);
 
+  const getLimit = (key: keyof Limits) =>
+    typeof limit === 'number'
+      ? limit
+      : limit && limit.hasOwnProperty(key)
+      ? limit[key]
+      : undefined;
+
+  const getFirst = (
+    type: keyof Limits,
+    content:
+      | WatchedMovie[]
+      | WatchedShow[]
+      | WatchlistMovie[]
+      | WatchlistShow[],
+  ) => {
+    if (content.length === 0) {
+      return [];
+    }
+
+    const limit = getLimit(type);
+
+    if (!limit) {
+      return content;
+    }
+
+    if (type === 'watchedMovies' || type === 'watchedShows') {
+      return content
+        .sort(
+          (a, b) =>
+            new Date(b.last_watched_at).getTime() -
+            new Date(a.last_watched_at).getTime(),
+        )
+        .slice(0);
+    }
+
+    if (type === 'watchlistMovies' || type === 'watchlistShows') {
+      return content
+        .sort(
+          (a, b) =>
+            new Date(b.listed_at).getTime() - new Date(a.listed_at).getTime(),
+        )
+        .slice(0, getLimit(type));
+    }
+  };
+
   return {
-    watchedMovies: watchedMovies as WatchedMovie[],
-    watchedShows: watchedShows as WatchedShow[],
-    watchlistMovies: watchlistMovies as WatchlistMovie[],
-    watchlistShows: watchlistShows as WatchlistShow[],
+    watchedMovies: getFirst('watchedMovies', watchedMovies) as WatchedMovie[],
+    watchedShows: getFirst('watchedShows', watchedShows) as WatchedShow[],
+    watchlistMovies: getFirst(
+      'watchlistMovies',
+      watchlistMovies,
+    ) as WatchlistMovie[],
+    watchlistShows: getFirst(
+      'watchlistShows',
+      watchlistShows,
+    ) as WatchlistShow[],
     stats: stats as Stats,
   };
 };
