@@ -24,8 +24,24 @@ To use this plugin, you have to obtain API keys for Trakt.tv and TMDB:
     username: "YOUR_TRAKT_USERNAME",
     tmdbApiKey: "TMDB_API_KEY", // optional, to fetch metadata
     language: "en-US" // optional, language for metadata (e.g. titles)
+    limit: 10 // optional, number of items to fetch per category
   },
 },
+```
+
+Try to keep the limit below or at 10 items per category (40 items in total) to avoid
+rate-limits by TMDb. Limit can also be an object providing individual limits for each
+Trakt category:
+
+```javascript
+{
+  limit: {
+    watchedMovies: 6,
+    watchedShows: 6,
+    watchlistMovies: 6,
+    watchlistShows: 6,
+  },
+}
 ```
 
 ## Contributing

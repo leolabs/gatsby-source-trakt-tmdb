@@ -47,7 +47,7 @@ export const getStatsData = async (userName: string, apiKey: string) => {
 export const getTraktData = async (
   userName: string,
   apiKey: string,
-  limit?: number | Limits,
+  limit: number | Limits = 10,
 ) => {
   const [
     watchedMovies,
