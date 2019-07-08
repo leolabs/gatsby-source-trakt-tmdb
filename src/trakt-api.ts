@@ -95,7 +95,7 @@ export const getTraktData = async (
             new Date(b.last_watched_at).getTime() -
             new Date(a.last_watched_at).getTime(),
         )
-        .slice(0);
+        .slice(0, typeLimit);
     }
 
     if (type === 'watchlistMovies' || type === 'watchlistShows') {
