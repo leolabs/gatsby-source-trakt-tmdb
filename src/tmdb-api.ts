@@ -46,6 +46,7 @@ export const getTmdbMetadata = async (
         `[TMDB ${type}/${id}] Too many requests, retrying in ${retry} seconds...`,
       );
       await timeout(retry * 1000);
+      return getTmdbMetadata(type, id, apiKey, language, cache, tries - 1);
     }
 
     throw new Error(
