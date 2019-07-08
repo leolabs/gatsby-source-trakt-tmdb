@@ -82,9 +82,9 @@ export const getTraktData = async (
       return [];
     }
 
-    const limit = getLimit(type);
+    const typeLimit = getLimit(type);
 
-    if (!limit) {
+    if (!typeLimit) {
       return content;
     }
 
@@ -104,7 +104,7 @@ export const getTraktData = async (
           (a, b) =>
             new Date(b.listed_at).getTime() - new Date(a.listed_at).getTime(),
         )
-        .slice(0, getLimit(type));
+        .slice(0, typeLimit);
     }
   };
 
