@@ -65,7 +65,7 @@ const createMovieNode = async (
   helpers,
   pluginOptions: PluginOptions,
 ) => {
-  if (pluginOptions.tmdbApiKey) {
+  if (pluginOptions.tmdbApiKey && movie.movie.ids.tmdb) {
     const movieMeta = (await getTmdbMetadata(
       'movie',
       movie.movie.ids.tmdb,
@@ -103,7 +103,7 @@ const createShowNode = async (
   helpers,
   pluginOptions: PluginOptions,
 ) => {
-  if (pluginOptions.tmdbApiKey) {
+  if (pluginOptions.tmdbApiKey && show.show.ids.tmdb) {
     const showMeta = (await getTmdbMetadata(
       'tv',
       show.show.ids.tmdb,

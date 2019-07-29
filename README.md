@@ -6,8 +6,47 @@ metadata from [TMDB](https://tmdb.org). This can be used to
 display a list of watched movies and series with their respective
 posters.
 
-gatsby-source-trakt-tmdb is compatible with [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/)
-so you can easily optimize posters and backdrop images during build time.
+gatsby-source-trakt-tmdb is compatible with
+[gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) so you can
+easily optimize posters and backdrop images during build time.
+
+## Sample Query
+
+```graphql
+query {
+  allTraktWatchedMovie(
+    limit: 6
+    sort: { fields: last_watched_at, order: DESC }
+  ) {
+    edges {
+      node {
+        last_watched_at
+        movie {
+          ids {
+            slug
+          }
+        }
+        tmdb_metadata {
+          title
+          poster {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 300, maxHeight: 450, quality: 90) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+If a Trakt.tv movie or show doesn't have a TMDb id yet, which could be the case
+when a show or movie is new, `tmdb_metadata` will be `null`, so make sure to
+check it before using it.
 
 ## Configuration
 
