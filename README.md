@@ -1,10 +1,9 @@
 # gatsby-source-trakt-tmdb
 
 This source plugin for Gatsby fetches personal statistics from
-[Trakt.tv](https://trakt.tv) and optionally enhances them with
-metadata from [TMDB](https://tmdb.org). This can be used to
-display a list of watched movies and series with their respective
-posters.
+[Trakt.tv](https://trakt.tv) and optionally enhances them with metadata from
+[TMDB](https://tmdb.org). This can be used to display a list of watched movies
+and series with their respective posters.
 
 gatsby-source-trakt-tmdb is compatible with
 [gatsby-image](https://www.gatsbyjs.org/packages/gatsby-image/) so you can
@@ -68,9 +67,9 @@ To use this plugin, you have to obtain API keys for Trakt.tv and TMDB:
 },
 ```
 
-Try to keep the limit below or at 10 items per category (40 items in total) to avoid
-rate-limits by TMDb. Limit can also be an object providing individual limits for each
-Trakt category:
+Try to keep the limit below or at 10 items per category (40 items in total) to
+avoid rate-limits by TMDb. Limit can also be an object providing individual
+limits for each Trakt category:
 
 ```javascript
 {
@@ -85,6 +84,6 @@ Trakt category:
 
 ## Contributing
 
-As this is my first source plugin for Gatsby, I think it has
-room for improvement. If you're interested in contributing,
-please feel free to open a pull request.
+As this is my first source plugin for Gatsby, I think it has room for
+improvement. If you're interested in contributing, please feel free to open a
+pull request.
